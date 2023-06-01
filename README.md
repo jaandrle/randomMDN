@@ -1,4 +1,4 @@
-# mastodon-randomMDN
+# randomMDN
 This repository posts a random article from [MDN Web Docs](https://developer.mozilla.org/en-US/).
 It is also a npm package exporting method `randomMDN`.
 

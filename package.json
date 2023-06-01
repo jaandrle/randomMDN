@@ -1,15 +1,13 @@
 {
-  "name": "mastodon-randommdn",
-  "version": "0.6.0",
+  "name": "randommdn",
+  "version": "0.7.0",
   "description": "Posting a random article from MDN.",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": { },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/jaandrle/mastodon-randomMDN.git"
+    "url": "git+ssh://git@github.com/jaandrle/randomMDN.git"
   },
   "keywords": [
     "mdn",
@@ -24,9 +22,9 @@
   "author": "Jan Andrle <andrle.jan@centrum.cz>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jaandrle/mastodon-randomMDN/issues"
+    "url": "https://github.com/jaandrle/randomMDN/issues"
   },
-  "homepage": "https://github.com/jaandrle/mastodon-randomMDN#readme",
+  "homepage": "https://github.com/jaandrle/randomMDN#readme",
   "dependencies": {
     "nodejsscript": "^0.9.3"
   }
