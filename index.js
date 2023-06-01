@@ -8,7 +8,7 @@ const url_web= 'https://developer.mozilla.org/en-US/docs/Web';
 	let candidate= {};
 	while(!candidate.title)
 		candidate= await article(webDocUrls[Math.floor(webDocUrls.length * Math.random())]);
-	echo(candidate);
+	echo(candidate, $.env.MASTODON_ACCESS_TOKEN);
 	$.exit(0);
 })();
 
