@@ -1,6 +1,6 @@
 {
   "name": "mastodon-randommdn",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Posting a random article from MDN.",
   "type": "module",
   "main": "index.js",
@@ -18,7 +18,8 @@
     "javascript",
     "webdev",
     "css",
-    "html"
+    "html",
+	"rss"
   ],
   "author": "Jan Andrle <andrle.jan@centrum.cz>",
   "license": "MIT",

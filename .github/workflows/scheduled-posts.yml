@@ -13,6 +13,6 @@ jobs:
         node-version: lts/*
         cache: 'npm'
     - run: npm ci
-    - run: npx nodejsscript cli.js  --url 'https://fosstodon.org' --token "${MASTODON_ACCESS_TOKEN}"
+    - run: npx nodejsscript cli.js  --url 'https://fosstodon.org' --token "${MASTODON_ACCESS_TOKEN}" --publish
       env:
         MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}

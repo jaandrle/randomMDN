@@ -20,12 +20,13 @@ if($.isMain(import.meta))
 	])
 	.option("--url", "instance url (e.g.: `https://mstdn.social`) – required")
 	.option("--token", "a token for the mastodon account – required")
-	.action(async function main({ url, token }){
+	.option("--publish", "sends post")
+	.action(async function main({ url, token, publish }){
 		if(!url) throw new Error("--url is required");
 		if(!token) throw new Error("--token is required");
 
-		const article= await randomMDN();
-		return echo(article);
+		const article= await randomMDN().then(compose);
+		if(!publish) return echo(article);
 		const res= await post({ url, token, article }).then(res=> res.json());
 		echo(res);
 		$.exit(0);
@@ -46,15 +47,8 @@ export async function randomMDN(){
 		)();
 	return candidate;
 }
-/**
- * @param {{
- *	url: string,
- *	token: script,
- *	article: Article_object
- *	}} def
- * */
-async function post({ url, token, article }){
-	const status= compose(article);
+/** @param {{ url: string, token: script, status: string }} def */
+async function post({ url, token, status }){
 	return fetch(new URL("api/v1/statuses", url), {
 		method: "POST",
 		headers: {
@@ -66,16 +60,19 @@ async function post({ url, token, article }){
 }
 /** @param {Article_object} article @returns {string} */
 function compose({ title, description, link }){
-	const limit= 500, reserve= 10;
+	const limit= 500, reserve= 15;
 	let { length }= description;
-	description= description.slice(0, limit - reserve - title.length - link.length);
+	const hashtags= getHashtags(link).join(" ");
+	description= description.slice(0,
+		limit - reserve - title.length - link.length - hashtags.length);
 	length-= description.length;
-	if(length) description+= "…";//1
+	if(length) description+= "…";//….length= 1
 	return [
-		title,
+		`🦖 ${title} 🦖`,//2×" 🦖".length= 6
+		link,
 		description,
-		link
-	].join("\n\n");//2×2
+		hashtags
+	].join("\n\n");//3×"\n\n"= 6
 }
 async function getWebDocUrls(){
 	const sitemap= await fetch(url_sitemap, {
@@ -109,5 +106,28 @@ function extractByRegexp(str, regexp){
 	const candidate= str.match(regexp);
 	if(!candidate) return null;
 	return candidate[1];
+}
+/**
+ * Get appropriate hashtags for the URL
+ * (probably can be way smarter and better)
+ *
+ * @param {String} url
+ * @returns {Array} fitting hashtags for the URL
+ */
+function getHashtags(url){
+	const hashtags= [ "#webdev" ];
+	const [ , section ]= url.match(/Web\/(.*?)\//);
+	const hashtagWorthySections = [
+		"CSS",
+		"Accessibility",
+		"JavaScript",
+		"HTTP",
+		"HTML",
+		"SVG",
+	];
+	if(hashtagWorthySections.includes(section))
+		hashtags.push(`#${section}`);
+
+  return hashtags;
 }
 function onlyAllowWebUrls(url){ return url.startsWith(url_web); }

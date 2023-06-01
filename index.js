@@ -1,3 +1,3 @@
 import "nodejsscript";
-import {randomMDN} from "./cli.js";
+import { randomMDN } from "./cli.js";
 export { randomMDN };
