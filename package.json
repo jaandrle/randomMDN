@@ -1,7 +1,8 @@
 {
   "name": "mastodon-randommdn",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.5.0",
+  "description": "Posting a random article from MDN.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
