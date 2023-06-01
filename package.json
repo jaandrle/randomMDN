@@ -1,31 +1,37 @@
 {
-  "name": "randommdn",
-  "version": "0.7.0",
-  "description": "Posting a random article from MDN.",
-  "type": "module",
-  "main": "index.js",
-  "scripts": { },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/jaandrle/randomMDN.git"
-  },
-  "keywords": [
-    "mdn",
-    "randomMDN",
-    "mastodon",
-    "javascript",
-    "webdev",
-    "css",
-    "html",
-	"rss"
-  ],
-  "author": "Jan Andrle <andrle.jan@centrum.cz>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jaandrle/randomMDN/issues"
-  },
-  "homepage": "https://github.com/jaandrle/randomMDN#readme",
-  "dependencies": {
-    "nodejsscript": "^0.9.3"
-  }
+	"name": "randommdn",
+	"version": "0.7.1",
+	"description": "Posting a random article from MDN.",
+	"type": "module",
+	"bin": {
+		"randomMDN": "./cli.js"
+	},
+	"main": "index.js",
+	"exports": {
+		".": "./index.js"
+	},
+	"scripts": { },
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/jaandrle/randomMDN.git"
+	},
+	"keywords": [
+		"mdn",
+		"randomMDN",
+		"mastodon",
+		"javascript",
+		"webdev",
+		"css",
+		"html",
+		"rss"
+	],
+	"author": "Jan Andrle <andrle.jan@centrum.cz>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/jaandrle/randomMDN/issues"
+	},
+	"homepage": "https://github.com/jaandrle/randomMDN#readme",
+	"dependencies": {
+		"nodejsscript": "^0.9.3"
+	}
 }

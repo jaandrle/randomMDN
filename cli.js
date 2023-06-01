@@ -2,7 +2,7 @@
 /* jshint esversion: 11,-W097, -W040, module: true, node: true, expr: true, undef: true *//* global echo, $, pipe, s, fetch, cyclicLoop */
 import { randomMDN, url_main } from './index.js';
 $.api("randomMDN")
-.version(s.cat($.xdg.main`package.json`).xargs(JSON.parse).version)
+	.version(getPackageJson().xargs(JSON.parse).version)
 .describe([
 	"This script posts a new random article from MDN¹ to a given mastodon instance.",
 	"To post to the correct mastodon instance, use the `--url` and `--token` options.",
@@ -79,4 +79,16 @@ function getHashtags(url){
 		hashtags.push(`#${section}`);
 
   return hashtags;
+}
+
+import { readlinkSync } from 'node:fs';
+import { resolve } from 'node:path';
+function getPackageJson(){
+	const p= "package.json";
+	if(!$[0].includes("node_modules/.bin"))
+		return s.cat($.xdg.main(p));
+	const path= $.xdg.main`../randommdn`;
+	if(!s.test("-L", path))
+		return s.cat(path+p);
+	return s.cat(resolve(path, "..", readlinkSync(path), p));
 }
