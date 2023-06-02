@@ -8,7 +8,7 @@ see [`.github/workflows/scheduled-posts.yml`](./.github/workflows/scheduled-post
 Inspired by [Random MDN (@randomMDN) / Twitter](https://twitter.com/randomMDN).
 
 ## Mastodon
-You can find the bot on <a rel="me" href="https://botsin.space/@randomMDN">randomMDN (@randomMDN@botsin.space) - botsin.space</a>.
+You can find the bot on [randomMDN (@randomMDN@botsin.space) - botsin.space](https://botsin.space/@randomMDN).
 
 ## RSS
 You can find the rss feed on [botsin.space/@randomMDN.rss](https://botsin.space/@randomMDN.rss)[^MaR].
