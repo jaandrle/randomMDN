@@ -3,7 +3,7 @@ name: Post to the Mastodon
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 0 0/6 1/1 * ? *'
+  - cron: '0 */6 * * *'
     
 jobs:
   main:
