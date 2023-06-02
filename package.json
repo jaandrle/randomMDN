@@ -1,6 +1,6 @@
 {
 	"name": "randommdn",
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"description": "Posting a random article from MDN.",
 	"type": "module",
 	"bin": {
