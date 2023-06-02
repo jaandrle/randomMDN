@@ -11,7 +11,7 @@ Inspired by [Random MDN (@randomMDN) / Twitter](https://twitter.com/randomMDN).
 You can find the bot on TBD.
 
 ## RSS
-You can find the rss feed on TBD[^MR].
+You can find the rss feed on TBD[^MaR].
 
 ## NPM & CLI
 1. Instalation (for now for early adapters)
@@ -54,5 +54,5 @@ You can find the rss feed on TBD[^MR].
 - [A Beginner's Guide to the Mastodon API - Post a Status Update with cURL or Python - DEV Community](https://dev.to/bitsrfr/getting-started-with-the-mastodon-api-41jj)
 - [Simple Mastodon bot in 100 lines.](https://gist.github.com/NeKzor/e7d8551c4f55fbe4ec16252e0f6fa012)
 
-[^MR] FYI: [Mastodon and RSS](https://derekkedziora.com/notes/20221112094802)
+[^MaR]: FYI: [Mastodon and RSS](https://derekkedziora.com/notes/20221112094802)
 [^ORnpm]: Alternatively `curl -sL install-node.vercel.app/lts | bash`
