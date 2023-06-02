@@ -45,7 +45,7 @@ async function parseArticle(link){
 	const inside_q= "(([^\"]|(?<=\\\\)\")*)";
 	return {
 		title, link,
-		description: extractByRegexp(doc, new RegExp(`<meta name="description" content="${inside_q}"`, "i")) || "",
+		description: extractByRegexp(doc, new RegExp(`<meta name="description" content="${inside_q}"`, "i")).replace(/\n */g, " ") || "",
 		updated: extractByRegexp(doc, new RegExp(`<time datetime="${inside_q}">`, "i")) || "",
 		github_file: extractByRegexp(doc, new RegExp(`<a href="https://github.com/mdn/content/edit/main/files/${inside_q}"`, "i")) || ""
 	};
