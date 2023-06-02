@@ -1,10 +1,7 @@
 import "nodejsscript";
-export const url_main= "https://developer.mozilla.org/en-US/"
-const url_web= url_main+"docs/Web";
-const url_sitemap= "https://developer.mozilla.org/sitemaps/en-us/sitemap.xml.gz";
 /**
  * @typedef Article_object
- * @type {{ title: string, link: string, description: string }}
+ * @type {{ title: string, link: string, description: string, updated: string, github_file: string }}
  * */
 let webDocUrls;
 /** @returns {Promise<Article_object>} */
@@ -23,6 +20,7 @@ export async function randomMDN(){
 	return candidate;
 }
 
+import { url_sitemap, url_web } from './consts.js';
 async function getWebDocUrls(){
 	const sitemap= await fetch(url_sitemap, {
 		responseType: 'buffer',
@@ -47,7 +45,9 @@ async function parseArticle(link){
 	const inside_q= "(([^\"]|(?<=\\\\)\")*)";
 	return {
 		title, link,
-		description: extractByRegexp(doc, new RegExp(`<meta name="description" content="${inside_q}"`, "i")) || ""
+		description: extractByRegexp(doc, new RegExp(`<meta name="description" content="${inside_q}"`, "i")) || "",
+		updated: extractByRegexp(doc, new RegExp(`<time datetime="${inside_q}">`, "i")) || "",
+		github_file: extractByRegexp(doc, new RegExp(`<a href="https://github.com/mdn/content/edit/main/files/${inside_q}"`, "i")) || ""
 	};
 }
 
