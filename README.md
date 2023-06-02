@@ -8,10 +8,10 @@ see [`.github/workflows/scheduled-posts.yml`](./.github/workflows/scheduled-post
 Inspired by [Random MDN (@randomMDN) / Twitter](https://twitter.com/randomMDN).
 
 ## Mastodon
-You can find the bot on TBD.
+You can find the bot on [randomMDN (@randomMDN@botsin.space) - botsin.space](https://botsin.space/@randomMDN).
 
 ## RSS
-You can find the rss feed on TBD[^MaR].
+You can find the rss feed on [botsin.space/@randomMDN.rss](https://botsin.space/@randomMDN.rss)[^MaR].
 
 ## NPM & CLI
 1. Instalation (for now for early adapters)
