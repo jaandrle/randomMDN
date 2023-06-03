@@ -4,15 +4,15 @@ import "nodejsscript";
 import { randomMDN } from './index.js';
 import { url_main, env_names } from './consts.js';
 $.api("randomMDN")
-	.version("1.0.0")
-.describe([
-	"This script posts a new random article from MDN¹ to a given mastodon instance.",
-	"To post to the correct mastodon instance, use the `--url` and `--token` options.",
-	"The script has been highly inspired by the similar project² for Twitter.",
-	"",
-	`[1] ${url_main}`,
-	`[2] https://github.com/random-mdn/random-mdn-bot`
-])
+	.version("1.0.1")
+	.describe([
+		"This script posts a new random article from MDN¹ to a given mastodon instance.",
+		"To post to the correct mastodon instance, use the `--url` and `--token` options.",
+		"The script has been highly inspired by the similar project² for Twitter.",
+		"",
+		`[1] ${url_main}`,
+		`[2] https://github.com/random-mdn/random-mdn-bot`
+	])
 .command("json", "Print random article as JSON")
 	.action(()=> randomMDN().then(pipe( JSON.stringify, echo, $.exit.bind(null, 0) )))
 .command("echo", "Print random article")
@@ -75,7 +75,7 @@ async function post({ url, token, status }){
 			Authorization: "Bearer "+token,
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ status })
+		body: JSON.stringify({ status, visibility: "public" })
 	});
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
@@ -100,7 +100,7 @@ function articleEncodeEntities({ ...article }){
 	return article;
 }
 function textEncodeEntities(text){//TODO: use lib?
-	const translate = {
+	const translate= {
 		" " : "nbsp",
 		"&" : "amp",
 		"\"": "quot",
