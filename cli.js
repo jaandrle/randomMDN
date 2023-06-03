@@ -4,7 +4,7 @@ import "nodejsscript";
 import { randomMDN } from './index.js';
 import { url_main, env_names } from './consts.js';
 $.api("randomMDN")
-	.version("0.9.0")
+	.version("1.0.0")
 .describe([
 	"This script posts a new random article from MDN¹ to a given mastodon instance.",
 	"To post to the correct mastodon instance, use the `--url` and `--token` options.",
@@ -14,11 +14,11 @@ $.api("randomMDN")
 	`[2] https://github.com/random-mdn/random-mdn-bot`
 ])
 .command("json", "Print random article as JSON")
-	.action(()=> randomMDN().then(pipe( articleDecodeEntities, JSON.stringify, echo, $.exit.bind(null, 0) )))
+	.action(()=> randomMDN().then(pipe( JSON.stringify, echo, $.exit.bind(null, 0) )))
 .command("echo", "Print random article")
-	.action(()=> randomMDN().then(pipe( articleDecodeEntities, echo, $.exit.bind(null, 0) )))
+	.action(()=> randomMDN().then(pipe( echo, $.exit.bind(null, 0) )))
 .command("text", "Print random article as text – default", { default: true })
-	.action(()=> randomMDN().then(pipe( articleDecodeEntities, compose, echo, $.exit.bind(null, 0) )))
+	.action(()=> randomMDN().then(pipe( compose, echo, $.exit.bind(null, 0) )))
 .command("mastodon", "Post to mastodon")
 	.option("--url", "instance url (e.g.: `https://mstdn.social`) – required")
 	.option("--token", "a token for the mastodon account – required")
@@ -29,7 +29,7 @@ $.api("randomMDN")
 		if(!url) $.error(`Can't post without a URL, please use the '--url' option or enviroment variable '${env_names.mastodon.url}'.`);
 		if(!token) $.error(`Can't post without a token, please use the '--token' option or enviroment variable '${env_names.mastodon.token}'.`);
 
-		const status= await randomMDN().then(pipe( articleDecodeEntities, compose ));
+		const status= await randomMDN().then(compose);
 		const res= await post({ url, token, status }).then(res=> res.json());
 		echo(res);
 		$.exit(0);
@@ -42,7 +42,7 @@ $.api("randomMDN")
 			length=> Array.from({ length }).map(randomMDN),
 			a=> Promise.all(a)
 		)(limit);
-		const articles_rss= articles.map(function({ title, description, link, github_file, updated }){
+		const articles_rss= articles.map(articleEncodeEntities).map(function({ title, description, link, github_file, updated }){
 			return [
 				"<item>",
 					"<title>"+title+"</title>",
@@ -94,26 +94,23 @@ function compose({ title, description, link }){
 	].join("\n\n");//3×"\n\n"= 6
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
-function articleDecodeEntities({ ...article }){
+function articleEncodeEntities({ ...article }){
 	[ "title", "description" ]
-		.forEach(key=> article[key]= textDecodeEntities(article[key]));
+		.forEach(key=> article[key]= textEncodeEntities(article[key]));
 	return article;
 }
-function textDecodeEntities(text){//TODO: use lib?
-    const translate = {
-        "nbsp": " ",
-        "amp" : "&",
-        "quot": "\"",
-		"apos": "'",
-        "lt"  : "<",
-        "gt"  : ">"
-    };
-	return text.replace(new RegExp(`&(${Object.keys(translate).join("|")});`, "g"), function(_, entity) {
-        return translate[entity];
-    }).replace(/&#(\d+);/gi, function(_, numStr) {
-        var num = parseInt(numStr, 10);
-        return String.fromCharCode(num);
-    });
+function textEncodeEntities(text){//TODO: use lib?
+	const translate = {
+		" " : "nbsp",
+		"&" : "amp",
+		"\"": "quot",
+		"'" : "apos",
+		"<" : "lt",
+		">" : "gt"
+	};
+	return text.replace(new RegExp(`(${Object.keys(translate).join("|")})`, "g"), function(_, entity) {
+		return `&${translate[entity]};`;
+	});
 }
 /**
  * Get appropriate hashtags for the URL

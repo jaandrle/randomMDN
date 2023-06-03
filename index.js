@@ -35,24 +35,25 @@ async function getWebDocUrls(){
 }
 /** @param {string} link @returns {Promise<Article_object | { title: null }>} */
 async function parseArticle(link){
-	const doc= await fetch(link).then(res=> res.text());
-	// to not rely on exact words this matches the deprecation container
-	if(/class="notecard deprecated"/.test(doc)) return {};
-	
-	const title= extractByRegexp(doc, /<h1>(.*?)<\/h1>/i);
-	if(!title) return {};
+	const jsonEmpty= ()=> ({ isActive: false });
+	const json= await fetch(link+"/index.json")
+		.then(res=> res.json())
+		.then(json=> json.doc || jsonEmpty())
+		.catch(jsonEmpty);
+	if(!json.isActive || isDeprecated(json)) return {};
 
-	const inside_q= "(([^\"]|(?<=\\\\)\")*)";
+	const pluck= (key, o= json)=> o[key] || "";
 	return {
-		title, link,
-		description: extractByRegexp(doc, new RegExp(`<meta name="description" content="${inside_q}"`, "i")).replace(/\n */g, " ") || "",
-		updated: extractByRegexp(doc, new RegExp(`<time datetime="${inside_q}">`, "i")) || "",
-		github_file: extractByRegexp(doc, new RegExp(`<a href="https://github.com/mdn/content/edit/main/files/${inside_q}"`, "i")) || ""
+		title: pluck("title"),
+		link,
+		description: pluck("summary").replace(/\n */g, " "),
+		updated: pluck("modified"),
+		github_file: pluck("github_url", json.source || {})
 	};
 }
-
-function extractByRegexp(str, regexp){
-	const candidate= str.match(regexp);
-	if(!candidate) return null;
-	return candidate[1];
+function isDeprecated({ body: [ opening ] }){
+	if(!opening) return true;
+	const { content }= opening?.value || {};
+	if(!content) return true;
+	return /class="notecard deprecated"/.test(content);
 }
