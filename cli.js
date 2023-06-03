@@ -121,7 +121,7 @@ function textEncodeEntities(text){//TODO: use lib?
  */
 function getHashtags(url){
 	let hashtags= "#webdev";
-	const [ , section ]= url.match(/Web\/(.*?)\//);
+	const [ , section= "" ]= url.match(/Web\/(.*?)\//) || [];
 	if([ "Accessibility", "CSS", "HTML", "HTTP", "JavaScript", "SVG" ].includes(section))
 		hashtags+= ` #${section}`;
   return hashtags;
