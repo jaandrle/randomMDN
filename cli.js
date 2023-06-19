@@ -4,7 +4,7 @@ import "nodejsscript";
 import { randomMDN } from './index.js';
 import { url_main, env_names } from './consts.js';
 $.api("randomMDN")
-	.version("1.0.1")
+	.version("1.0.2")
 	.describe([
 		"This script posts a new random article from MDN¹ to a given mastodon instance.",
 		"To post to the correct mastodon instance, use the `--url` and `--token` options.",
