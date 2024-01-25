@@ -25,7 +25,7 @@ async function getWebDocUrls(){
 	const sitemap= await fetch(url_sitemap, {
 		responseType: 'buffer',
 		headers: {
-		'accept-encoding': 'gzip',
+			'accept-encoding': 'gzip',
 		},
 	}).then(res=> res.text());
 
