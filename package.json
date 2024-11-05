@@ -10,7 +10,7 @@
 	"exports": {
 		".": "./index.js"
 	},
-	"scripts": { },
+	"scripts": {},
 	"repository": {
 		"type": "git",
 		"url": "git+ssh://git@github.com/jaandrle/randomMDN.git"
@@ -32,6 +32,6 @@
 	},
 	"homepage": "https://github.com/jaandrle/randomMDN#readme",
 	"dependencies": {
-		"nodejsscript": "^0.9.3"
+		"nodejsscript": "~1.0"
 	}
 }
