@@ -79,19 +79,30 @@ async function post({ url, token, status }){
 	});
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
-function compose({ title, description, link }){
+function compose({ title, description, link, baseline }){
 	const limit= 500, reserve= 15;
 	let { length }= description;
+	const baseline_text= !baseline ? " 🦖" : "\n"+getBaseline(baseline);
 	const hashtags= getHashtags(link);
+	const used_chars= title.length + link.length + hashtags.length + baseline_text.length;
 	description= description.slice(0,
-		limit - reserve - title.length - link.length - hashtags.length);
+		limit - reserve - used_chars);
 	if(length - description.length) description+= "…";//….length= 1
 	return [
-		`🦖 ${title} 🦖`,//2×" 🦖".length= 6
+		title + baseline_text,
 		link,
 		description,
 		hashtags
 	].join("\n\n");//3×"\n\n"= 6
+}
+/** @param {import("./index.js").Baseline} baseline */
+function getBaseline({ baseline, baseline_low_date }){
+	if(!baseline) return "🟧 Limited availability";
+	const year= baseline_low_date.slice(0, 4);
+	const label= baseline === "low"
+		? "☑️ Newly available"
+		: "✅ Widely available";
+	return `${label} (baseline ${year})`;
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
 function articleEncodeEntities({ ...article }){
