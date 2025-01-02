@@ -79,19 +79,30 @@ async function post({ url, token, status }){
 	});
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
-function compose({ title, description, link }){
-	const limit= 500, reserve= 15;
-	let { length }= description;
+function compose({ title, description, link, baseline }){
+	const limit= 500, reserve= 11; // see *
+	const { length }= description;
+	const baseline_text= !baseline ? " 🦖" : "\n"+getBaseline(baseline);
 	const hashtags= getHashtags(link);
-	description= description.slice(0,
-		limit - reserve - title.length - link.length - hashtags.length);
-	if(length - description.length) description+= "…";//….length= 1
+	const used_chars= title.length + link.length + hashtags.length + baseline_text.length;
+	description= description.slice(0, limit - reserve - used_chars);//cut last char in case '…'= 1 (*)
+	if(length - description.length) description+= "…";//….length= 1 (*)
 	return [
-		`🦖 ${title} 🦖`,//2×" 🦖".length= 6
+		"🦖 " + title + baseline_text, //"🦖 ".length= 3 (*)
 		link,
 		description,
 		hashtags
-	].join("\n\n");//3×"\n\n"= 6
+	].join("\n\n");//3×"\n\n"= 6 (*)
+}
+/** @param {import("./index.js").Baseline} baseline */
+function getBaseline({ baseline, baseline_low_date }){
+	if(!baseline) return "🟧 Limited availability";
+	const intl= new Intl.DateTimeFormat("en-GB", { year: "numeric", month: "short" });
+	const date= new Date(baseline_low_date);
+	const label= baseline === "low"
+		? "☑️ Newly available"
+		: "✅ Widely available";
+	return `${label} (from ${intl.format(date)})`;
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
 function articleEncodeEntities({ ...article }){

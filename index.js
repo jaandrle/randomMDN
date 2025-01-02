@@ -1,7 +1,11 @@
 import "nodejsscript";
 /**
+ * @typedef Baseline
+ * @type {{ baseline: false } | { baseline: "low", baseline_low_date: string } | { baseline: "high",, baseline_low_date: string, baseline_high_date: string }}
+ * */
+/**
  * @typedef Article_object
- * @type {{ title: string, link: string, description: string, updated: string, github_file: string }}
+ * @type {{ title: string, link: string, description: string, updated: string, github_file: string, baseline?: Baseline }}
  * */
 let webDocUrls;
 /** @returns {Promise<Article_object>} */
@@ -48,7 +52,8 @@ async function parseArticle(link){
 		link,
 		description: pluck("summary").replace(/\n */g, " "),
 		updated: pluck("modified"),
-		github_file: pluck("github_url", json.source || {})
+		github_file: pluck("github_url", json.source || {}),
+		baseline: pluck("baseline"),
 	};
 }
 function isDeprecated({ body: [ opening ] }){
