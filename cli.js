@@ -80,20 +80,19 @@ async function post({ url, token, status }){
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
 function compose({ title, description, link, baseline }){
-	const limit= 500, reserve= 15;
-	let { length }= description;
+	const limit= 500, reserve= 11; // see *
+	const { length }= description;
 	const baseline_text= !baseline ? " 🦖" : "\n"+getBaseline(baseline);
 	const hashtags= getHashtags(link);
 	const used_chars= title.length + link.length + hashtags.length + baseline_text.length;
-	description= description.slice(0,
-		limit - reserve - used_chars);
-	if(length - description.length) description+= "…";//….length= 1
+	description= description.slice(0, limit - reserve - used_chars);//cut last char in case '…'= 1 (*)
+	if(length - description.length) description+= "…";//….length= 1 (*)
 	return [
-		title + baseline_text,
+		"🦖 " + title + baseline_text, //"🦖 ".length= 3 (*)
 		link,
 		description,
 		hashtags
-	].join("\n\n");//3×"\n\n"= 6
+	].join("\n\n");//3×"\n\n"= 6 (*)
 }
 /** @param {import("./index.js").Baseline} baseline */
 function getBaseline({ baseline, baseline_low_date }){
