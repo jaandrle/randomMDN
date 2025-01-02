@@ -3,7 +3,7 @@ name: Post to the Mastodon
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 */6 * * *'
+  - cron: '0 10,19 * * *'
     
 permissions:
   contents: read

@@ -98,11 +98,12 @@ function compose({ title, description, link, baseline }){
 /** @param {import("./index.js").Baseline} baseline */
 function getBaseline({ baseline, baseline_low_date }){
 	if(!baseline) return "🟧 Limited availability";
-	const year= baseline_low_date.slice(0, 4);
+	const intl= new Intl.DateTimeFormat("en-GB", { year: "numeric", month: "short" });
+	const date= new Date(baseline_low_date);
 	const label= baseline === "low"
 		? "☑️ Newly available"
 		: "✅ Widely available";
-	return `${label} (baseline ${year})`;
+	return `${label} (from ${intl.format(date)})`;
 }
 /** @param {import("./index.js").Article_object} article @returns {string} */
 function articleEncodeEntities({ ...article }){
