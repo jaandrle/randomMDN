@@ -32,6 +32,6 @@
 	},
 	"homepage": "https://github.com/jaandrle/randomMDN#readme",
 	"dependencies": {
-		"nodejsscript": "~1.0"
+		"nodejsscript": "^1.1"
 	}
 }
